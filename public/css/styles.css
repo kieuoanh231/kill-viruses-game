@@ -1,20 +1,20 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-  }
-  .main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-  }
-  .game {
-    background-image: url(../images/1.webp);
-    border: solid 15px rgb(84, 84, 255);
-    border-radius: 20px;
-    background-repeat: no-repeat;
-    background-size: 100% 100%;
-    background-position: center;
-    
-  }
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+.main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.frame{
+  position: absolute;
+}
+.game {
+  background-image: url(../images/backgroud.png);
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  background-position: center;
+}
