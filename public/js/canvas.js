@@ -4,4 +4,4 @@ var img = new Image();
 img.onload = function() {
     c.drawImage(img, 50, 50,50,50);
 };
-img.src = './public/images/corona1.png';
+// img.src = './public/images/corona1.png';
