@@ -1,7 +1,43 @@
-const canvas = document.querySelector('.game');
-const c = canvas.getContext('2d');
-var img = new Image();
-img.onload = function() {
-    c.drawImage(img, 50, 50,50,50);
+const mRandom = (min, max) => {
+  return Math.floor(Math.random() * (max - min) + min);
 };
-// img.src = './public/images/corona1.png';
+
+const createCorona = () => {
+  // if (gameFrame % number[`${round}`] === 0) {
+  // let rdIndex = mRandom(0, characters.length);
+
+  // let character = characters[rdIndex];
+
+  // characters.splice(rdIndex, 1)
+
+  let percent = mRandom(0, 100);
+
+  if (percent > 20) {
+    // let color = colors[mRandom(0, colors.length)];
+    arrCorona.push(new Corona("a", corona));
+  } else if (percent > 7) {
+    arrCorona.push(new Corona("b", coronaBlack, TYPE_BLACK));
+  } else {
+    arrCorona.push(new Corona("s", corona, TYPE_STAR));
+  }
+  console.log(arrCorona.length);
+
+  // }
+};
+
+const drawCorona = () => {
+  for (let covid of arrCorona) {
+    covid.draw();
+    // corona.update()
+  }
+};
+
+const drawGame = () => {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  // draw bubble
+  drawCorona();
+};
+
+createCorona();
+drawCorona();
+drawGame();
