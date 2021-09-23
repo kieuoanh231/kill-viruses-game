@@ -9,3 +9,5 @@ function play() {
     name_game.style.display = "block";
   }
 }
+
+

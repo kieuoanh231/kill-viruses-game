@@ -13,31 +13,34 @@ const createCorona = () => {
   let percent = mRandom(0, 100);
 
   if (percent > 20) {
-    // let color = colors[mRandom(0, colors.length)];
-    arrCorona.push(new Corona("a", corona));
+    let image = imgArray[mRandom(0, imgArray.length)];
+    arrCorona.push(new Corona("a", image));
   } else if (percent > 7) {
     arrCorona.push(new Corona("b", coronaBlack, TYPE_BLACK));
   } else {
     arrCorona.push(new Corona("s", corona, TYPE_STAR));
   }
-  console.log(arrCorona.length);
+  // console.log(arrCorona.length);
 
   // }
 };
 
 const drawCorona = () => {
   for (let covid of arrCorona) {
-    covid.draw();
+
+    covid.image.onload = function () {
+      covid.draw();
+    };
     // corona.update()
   }
 };
 
-const drawGame = () => {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  // draw bubble
-  drawCorona();
-};
+// const drawGame = () => {
+//   ctx.clearRect(0, 0, canvas.width, canvas.height);
+//   // draw bubble
+//   drawCorona();
+// };
 
 createCorona();
 drawCorona();
-drawGame();
+// drawGame();
