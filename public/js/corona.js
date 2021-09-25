@@ -9,15 +9,16 @@ class Corona {
 
   update() {
     this.y += 0.5;
+    repeatTime += 0.5;
     this.draw();
   }
 
   draw() {
-    ctx.drawImage(this.image, this.x-35, this.y-35, 70, 70);
-    this.drawText();
+    ctx.drawImage(this.image, this.x - 35, this.y - 35, 70, 70);
+    this.#drawText();
   }
 
-  drawText() {
+  #drawText() {
     ctx.font = "500 20px Poppins";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
