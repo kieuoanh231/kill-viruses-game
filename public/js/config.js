@@ -24,3 +24,6 @@ let arrCorona=[];
 const TYPE_NORMAL = 1;
 const TYPE_STAR = 2;
 const TYPE_BLACK = 3;
+
+let characters = data.map((e) => e)
+// let gameFrame=0;

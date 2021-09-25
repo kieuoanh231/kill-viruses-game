@@ -4,43 +4,41 @@ const mRandom = (min, max) => {
 
 const createCorona = () => {
   // if (gameFrame % number[`${round}`] === 0) {
-  // let rdIndex = mRandom(0, characters.length);
+  let rdIndex = mRandom(0, characters.length);
 
-  // let character = characters[rdIndex];
+  let character = characters[rdIndex];
 
-  // characters.splice(rdIndex, 1)
+  characters.splice(rdIndex, 1)
 
+  console.log(character);
   let percent = mRandom(0, 100);
 
   if (percent > 20) {
     let image = imgArray[mRandom(0, imgArray.length)];
-    arrCorona.push(new Corona("a", image));
+    arrCorona.push(new Corona(character, image));
   } else if (percent > 7) {
-    arrCorona.push(new Corona("b", coronaBlack, TYPE_BLACK));
+    arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
-    arrCorona.push(new Corona("s", corona, TYPE_STAR));
+    arrCorona.push(new Corona(character, corona, TYPE_STAR));
   }
-  // console.log(arrCorona.length);
-
-  // }
 };
 
 const drawCorona = () => {
   for (let covid of arrCorona) {
-
     covid.image.onload = function () {
       covid.draw();
     };
-    // corona.update()
   }
 };
 
-// const drawGame = () => {
-//   ctx.clearRect(0, 0, canvas.width, canvas.height);
-//   // draw bubble
-//   drawCorona();
-// };
+const animation = function () {
+  requestAnimationFrame(animation);
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+
+  for (let covid of arrCorona) {
+    covid.update();
+  }
+};
 
 createCorona();
-drawCorona();
-// drawGame();
+animation();

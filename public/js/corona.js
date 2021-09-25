@@ -7,11 +7,21 @@ class Corona {
     this.type = type;
   }
 
-    //   update() {
-    //     this.y += 0.5;
-    //   }
+  update() {
+    this.y += 0.5;
+    this.draw();
+  }
 
   draw() {
-    ctx.drawImage(this.image, this.x, this.y, 70, 70);
+    ctx.drawImage(this.image, this.x-35, this.y-35, 70, 70);
+    this.drawText();
+  }
+
+  drawText() {
+    ctx.font = "500 20px Poppins";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "white";
+    ctx.fillText(this.character.hiragana, this.x, this.y);
   }
 }
