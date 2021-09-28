@@ -37,6 +37,7 @@
   background-position: center;
 }
 .btn {
+  position: absolute;
   margin-top: 50px;
   height: 67px;
   z-index: 999;
@@ -45,7 +46,7 @@
   border-radius: 10px;
   text-decoration: none;
   box-sizing: border-box;
-  font-family: 'elfboyclassic';
+  font-family: "elfboyclassic";
   font-size: 70px;
   color: #ffffff;
   text-align: center;
@@ -53,11 +54,13 @@
   background: #00226f;
   cursor: pointer;
   transform: scale(1);
-  transition: transform .2s;
+  transition: transform 0.2s;
 }
 .btn:hover {
   transform: scale(1.05);
   color: #00226f;
   background-color: #ffffff;
 }
-
+.btn-restart {
+  display: none;
+}

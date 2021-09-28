@@ -9,8 +9,7 @@ class Corona {
 
   update() {
     this.y += 0.5;
-    repeatTime += 0.5;
-    this.draw();
+
   }
 
   draw() {

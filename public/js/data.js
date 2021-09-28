@@ -109,4 +109,14 @@ const data = [
     { hiragana: "みゅ", romaji: "myu" },
     { hiragana: "みょ", romaji: "myo" },
 
+    { hiragana: "一", romaji: "1" },
+    { hiragana: "二", romaji: "2" },
+    { hiragana: "三", romaji: "3" },
+    { hiragana: "四", romaji: "4" },
+    { hiragana: "五", romaji: "5" },
+    { hiragana: "六", romaji: "6" },
+    { hiragana: "七", romaji: "7" },
+    { hiragana: "八", romaji: "8" },
+    { hiragana: "九", romaji: "9" },
+
 ];
