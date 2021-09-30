@@ -1,3 +1,6 @@
+const name_game = document.querySelector(".name");
+const btn = document.querySelector(".btn-play");
+const btnR = document.querySelector(".btn-restart");
 const canvas = document.querySelector(".game");
 const ctx = canvas.getContext("2d");
 
@@ -6,7 +9,10 @@ coronaBlack.src = "./public/images/corona3.png";
 
 const coronaStar = new Image();
 coronaStar.src = "./public/images/corona1.png";
-
+const khungDiem = new Image();
+khungDiem.src = "./public/images/khungDiem.png";
+const khungVang = new Image();
+khungVang.src = "./public/images/khungVang.png";
 var imgArray = new Array();
 imgArray[0] = new Image();
 imgArray[0].src = "./public/images/corona2.png";
@@ -20,12 +26,10 @@ imgArray[2].src = "./public/images/corona5.png";
 imgArray[3] = new Image();
 imgArray[3].src = "./public/images/corona6.png";
 
-const round = {
+const wave = {
   1: 5,
-  2: 7,
-  3: 10,
-  4: 15,
-  5: 20,
+  2: 10,
+  3: 15,
 };
 
 let arrCorona = [];
@@ -37,10 +41,17 @@ let characters = data.map((e) => e);
 var repeatTime = 0;
 let request;
 let isStart = false;
-const shuffled = characters.sort(() => 0.5 - Math.random());
-let selected;
-let roundNumber = 1;
+let waveIndex = 1;
 let firstLetter = undefined;
 let currentCorona = undefined;
 let correctLettersTyped = [];
+let lastCompleteY = undefined;
+let lastCompleteX = undefined;
+let opacity = 1;
+let isCurrentCorona = false;
+let score = 0;
+let checkKill= 0;
+let arrLength=0;
+let checkBlackCovid=[];
+let checkBlack=true;
 // let gameFrame=0;
