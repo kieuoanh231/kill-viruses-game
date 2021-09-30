@@ -7,11 +7,12 @@ const createCorona = () => {
   let character = characters[rdIndex];
   characters.splice(rdIndex, 1);
   let percent = mRandom(0, 100);
-  if (percent > 20) {
-    arrLength += 1;
-    let image = imgArray[mRandom(0, imgArray.length)];
-    arrCorona.push(new Corona(character, image));
-  } else if (percent > 15) {
+  // if (percent > 20) {
+  //   arrLength += 1;
+  //   let image = imgArray[mRandom(0, imgArray.length)];
+  //   arrCorona.push(new Corona(character, image));
+  // } else 
+  if (percent > 50) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
     arrLength += 1;
