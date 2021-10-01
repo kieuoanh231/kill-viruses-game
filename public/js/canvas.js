@@ -7,11 +7,12 @@ const createCorona = () => {
   let character = characters[rdIndex];
   characters.splice(rdIndex, 1);
   let percent = mRandom(0, 100);
-  if (percent > 20) {
-    arrLength += 1;
-    let image = imgArray[mRandom(0, imgArray.length)];
-    arrCorona.push(new Corona(character, image));
-  } else if (percent > 15) {
+  // if (percent > 20) {
+  //   arrLength += 1;
+  //   let image = imgArray[mRandom(0, imgArray.length)];
+  //   arrCorona.push(new Corona(character, image));
+  // } else 
+  if (percent > 50) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
     arrLength += 1;
@@ -75,7 +76,8 @@ const animation = () => {
   drawScore();
   drawNotification();
   request = requestAnimationFrame(animation);
-  console.log(repeatTime);
+  console.log(checkKill);
+  // console.log(repeatTime);
   finishedWave(wave[waveIndex], repeatTime % 100 == 0);
   if (end) {
     end = false;
@@ -86,7 +88,6 @@ const animation = () => {
 // hoàn thành 1 wave
 const finishedWave = (coronaNumber, check) => {
   if (check) {
-    arrCorona = [];
     if (checkKill == coronaNumber && arrLength == coronaNumber) {
       console.log(arrCorona);
       arrCorona = [];
@@ -94,7 +95,7 @@ const finishedWave = (coronaNumber, check) => {
       arrLength = 0;
       cancelAnimationFrame(request);
       arrCorona = [];
-      ctx.font = "500 20px Poppins";
+      ctx.font = "500 20px elfboyclassic";
       ctx.textAlign = "center";
       ctx.textBaseline = "middle";
       ctx.fillStyle = "white";
@@ -131,6 +132,16 @@ const completedAWord = () => {
     coronaBackup = currentCorona;
     removeCorona(currentCorona);
     checkKill += 1;
+    firstLetter = undefined;
+    currentCorona = undefined;
+  }
+  else if(
+    arrCorrectLetters.length > 0 &&
+    arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&
+    currentCorona.type == TYPE_BLACK
+  ){
+    arrCorrectLetters = [];
+    end = true;
     firstLetter = undefined;
     currentCorona = undefined;
   }
