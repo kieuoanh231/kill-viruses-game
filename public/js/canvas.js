@@ -68,7 +68,6 @@ const animation = () => {
     if (arrLength < wave[waveIndex]) {
       createCorona();
     }
-    // finishedWave(wave[waveIndex]);
   }
   repeatTime += 0.5;
   drawCoronas();
@@ -106,8 +105,7 @@ const finishedWave = (coronaNumber, check) => {
       repeatTime = 0;
     }
   }
-  // animation();
-  // request= requestAnimationFrame(animation)
+  
 };
 //kiểm tra corona chạm khung
 const checkWhenCoronaTouchBottom = (covid) => {
