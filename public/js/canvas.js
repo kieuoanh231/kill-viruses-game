@@ -11,7 +11,7 @@ const createCorona = () => {
   //   arrLength += 1;
   //   let image = imgArray[mRandom(0, imgArray.length)];
   //   arrCorona.push(new Corona(character, image));
-  // } else 
+  // } else
   if (percent > 50) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
@@ -76,8 +76,6 @@ const animation = () => {
   drawScore();
   drawNotification();
   request = requestAnimationFrame(animation);
-  console.log(checkKill);
-  // console.log(repeatTime);
   finishedWave(wave[waveIndex], repeatTime % 100 == 0);
   if (end) {
     end = false;
@@ -85,28 +83,26 @@ const animation = () => {
     btnR.style.display = "inline-block";
   }
 };
-// hoàn thành 1 wave
+//hoàn thành 1 wave
 const finishedWave = (coronaNumber, check) => {
   if (check) {
     if (checkKill == coronaNumber && arrLength == coronaNumber) {
-      console.log(arrCorona);
       arrCorona = [];
       checkKill = 0;
       arrLength = 0;
+      waveText.style.display = "inline-block";
+      waveText.innerHTML = "WAVE " + waveIndex;
       cancelAnimationFrame(request);
-      arrCorona = [];
-      ctx.font = "500 20px elfboyclassic";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "white";
-      ctx.fillText("WAVE 1", canvas.height/2, canvas.height/2);
       setTimeout(function () {
         play();
-      }, 10000);
+      }, 1000);
       repeatTime = 0;
+      waveIndex += 1;
+      if (waveIndex > 3) {
+        waveIndex = 1;
+      }
     }
   }
-  
 };
 //kiểm tra corona chạm khung
 const checkWhenCoronaTouchBottom = (covid) => {
@@ -134,12 +130,11 @@ const completedAWord = () => {
     checkKill += 1;
     firstLetter = undefined;
     currentCorona = undefined;
-  }
-  else if(
+  } else if (
     arrCorrectLetters.length > 0 &&
     arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&
     currentCorona.type == TYPE_BLACK
-  ){
+  ) {
     arrCorrectLetters = [];
     end = true;
     firstLetter = undefined;
@@ -231,6 +226,7 @@ const play = () => {
   name_game.style.display = "none";
   btn.style.display = "none";
   btnR.style.display = "none";
+  waveText.style.display = "none";
   animation();
 };
 //bat su kien nut reset
