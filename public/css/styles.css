@@ -64,3 +64,35 @@
 .btn-restart {
   display: none;
 }
+
+.waveText {
+  font-family: "elfboyclassic";
+  font-size: 100px;
+  text-align: center;
+  padding-left: 25px;
+  padding-right: 20px;
+  border-radius: 10px;
+  position: absolute;
+  top: 30%;
+  z-index: 99;
+  color: #00226f;
+  background-color: yellow;
+  transform: scale(1.2);
+  display: inline-block;
+  animation: waveAnimate 1s;
+}
+
+@keyframes waveAnimate {
+  from {
+    transform: scale(0.3);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1.2);
+    opacity: 0.9;
+  }
+}
+
+.waveText {
+  display: none;
+}

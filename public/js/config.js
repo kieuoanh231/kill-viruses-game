@@ -1,6 +1,7 @@
 const name_game = document.querySelector(".name");
 const btn = document.querySelector(".btn-play");
 const btnR = document.querySelector(".btn-restart");
+const waveText = document.querySelector(".waveText");
 const canvas = document.querySelector(".game");
 const ctx = canvas.getContext("2d");
 
@@ -27,9 +28,9 @@ imgArray[3] = new Image();
 imgArray[3].src = "./public/images/corona6.png";
 
 const wave = {
-  1: 5,
-  2: 10,
-  3: 15,
+  1: 1,
+  2: 2,
+  3: 3,
 };
 
 let arrCorona = [];

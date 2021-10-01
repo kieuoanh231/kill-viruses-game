@@ -75,7 +75,6 @@ const animation = () => {
   drawScore();
   drawNotification();
   request = requestAnimationFrame(animation);
-  console.log(repeatTime);
   finishedWave(wave[waveIndex], repeatTime % 100 == 0);
   if (end) {
     end = false;
@@ -83,29 +82,26 @@ const animation = () => {
     btnR.style.display = "inline-block";
   }
 };
-// hoàn thành 1 wave
+//hoàn thành 1 wave
 const finishedWave = (coronaNumber, check) => {
   if (check) {
-    arrCorona = [];
     if (checkKill == coronaNumber && arrLength == coronaNumber) {
-      console.log(arrCorona);
       arrCorona = [];
       checkKill = 0;
       arrLength = 0;
+      waveText.style.display = "inline-block";
+      waveText.innerHTML = "WAVE " + waveIndex;
       cancelAnimationFrame(request);
-      arrCorona = [];
-      ctx.font = "500 20px Poppins";
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
-      ctx.fillStyle = "white";
-      ctx.fillText("WAVE 1", canvas.height/2, canvas.height/2);
       setTimeout(function () {
         play();
-      }, 10000);
+      }, 1000);
       repeatTime = 0;
+      waveIndex += 1;
+      if (waveIndex > 3) {
+        waveIndex = 1;
+      }
     }
   }
-  
 };
 //kiểm tra corona chạm khung
 const checkWhenCoronaTouchBottom = (covid) => {
@@ -220,6 +216,7 @@ const play = () => {
   name_game.style.display = "none";
   btn.style.display = "none";
   btnR.style.display = "none";
+  waveText.style.display = "none";
   animation();
 };
 //bat su kien nut reset
