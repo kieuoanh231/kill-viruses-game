@@ -28,7 +28,7 @@ imgArray[3] = new Image();
 imgArray[3].src = "./public/images/corona6.png";
 
 const wave = {
-  1: 1,
+  1: 10,
   2: 2,
   3: 3,
 };

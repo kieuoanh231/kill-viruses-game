@@ -7,17 +7,17 @@ const createCorona = () => {
   let character = characters[rdIndex];
   characters.splice(rdIndex, 1);
   let percent = mRandom(0, 100);
-  if (percent > 30) {
+  if (percent > 50) {
     arrLength += 1;
     let image = imgArray[mRandom(0, imgArray.length)];
     arrCorona.push(new Corona(character, image));
-  } else
-  if (percent > 20) {
+  } else if (percent > 0) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
-  } else {
-    arrLength += 1;
-    arrCorona.push(new Corona(character, coronaStar, TYPE_STAR));
   }
+  // else {
+  //   arrLength += 1;
+  //   arrCorona.push(new Corona(character, coronaStar, TYPE_STAR));
+  // }
 };
 //xoá corona
 const removeCorona = (corona) => {
@@ -118,9 +118,10 @@ const checkRound = (arr) => {};
 // Hoàn thành xong từ
 const completedAWord = () => {
   // Xoá corona khi nhập đúng từ trong current corona
+
   if (
     arrCorrectLetters.length > 0 &&
-    arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&
+    arrCorrectLetters.join("") == Object.values(currentCorona.character)[1] &&
     currentCorona.type != TYPE_BLACK
   ) {
     score += currentCorona.type == TYPE_STAR ? 2 : 1;
@@ -130,24 +131,33 @@ const completedAWord = () => {
     checkKill += 1;
     firstLetter = undefined;
     currentCorona = undefined;
+  
   } else if (
     arrCorrectLetters.length > 0 &&
     arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&
     currentCorona.type == TYPE_BLACK
   ) {
+    console.log(arrCorrectLetters);
+    console.log(arrCorrectLetters.join(""));
+    console.log(Object.values(currentCorona.character)[1]);
     arrCorrectLetters = [];
     end = true;
     firstLetter = undefined;
     currentCorona = undefined;
   }
-  // nhu tên
+  else {
   findAndRemoveCoronaWithWrongLetters();
+  }
+
+  // nhu tên
 };
 //Tìm và xoá Corona nếu có, khi nhập sai từ trong current corona
 const findAndRemoveCoronaWithWrongLetters = () => {
+ 
   let count = 0;
   for (let covid of arrCorona) {
     if (arrWrongLetters.length > 1) {
+      // console.log(arrWrongLetters)
       if (
         Object.values(covid.character)[1] === arrWrongLetters.join("") &&
         covid.type != TYPE_BLACK
@@ -162,6 +172,7 @@ const findAndRemoveCoronaWithWrongLetters = () => {
         covid.type == TYPE_BLACK
       ) {
         end = true;
+        currentCorona = undefined;
         break;
       } else if (
         Object.values(covid.character)[1] != arrWrongLetters.join("") &&
@@ -180,20 +191,23 @@ const findAndRemoveCoronaWithWrongLetters = () => {
 // bat su kien nhan tu
 document.addEventListener("keypress", (e) => {
   const key = e.key;
+  console.log(key);
   // chua co current corona thi set current
   if (currentCorona === undefined) {
     firstLetter = key;
     selectCurrentCorona();
   }
+  
+
   // Kiểm tra kí tự của current corona vs key
   if (checkLetterOfCurrentCorona(arrCorrectLetters, key)) {
     arrCorrectLetters.push(key);
   } else {
+    
     arrWrongLetters = arrCorrectLetters;
     arrWrongLetters.push(key);
-    arrCorrectLetters = [];
     firstLetter = undefined;
-    currentCorona = undefined;
+    arrCorrectLetters=[]
   }
 });
 //Tìm và set current corona (đc gọi trong bắt sư kiện nhấn phím)
