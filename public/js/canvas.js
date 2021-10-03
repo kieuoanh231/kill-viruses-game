@@ -9,12 +9,12 @@ const createCorona = () => {
   characters.splice(rdIndex, 1);
   //Tạo xác suất xuất hiện corona
   let percent = mRandom(0, 100);
-  //Tạo corona thường
-  if (percent > 30) {
+  if (percent > 25) {
     arrLength += 1;
     let image = imgArray[mRandom(0, imgArray.length)];
     arrCorona.push(new Corona(character, image));
-  } else if (percent > 20) {
+  } else
+  if (percent > 15) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
     arrLength += 1;
@@ -142,9 +142,17 @@ const completedAWord = () => {
   // Xoá corona khi nhập đúng từ trong current corona
   if (
     arrCorrectLetters.length > 0 &&
-    arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&
-    currentCorona.type != TYPE_BLACK
+    arrCorrectLetters.join("") === Object.values(currentCorona.character)[1]
   ) {
+    findAndRemoveCoronaWithCorrectLetters();
+  }
+  if (arrWrongLetters.length > 1) {
+    selectCurrentCoronaWithWrongLetters();
+  }
+};
+// Tìm và xoá Corona khi nhập đúng từ trong current corona
+const findAndRemoveCoronaWithCorrectLetters = () => {
+  if (currentCorona.type != TYPE_BLACK) {
     score += currentCorona.type == TYPE_STAR ? 2 : 1;
     arrCorrectLetters = [];
     coronaBackup = currentCorona;
@@ -158,69 +166,52 @@ const completedAWord = () => {
       currentCorona.character = bossCharacter;
     }
     firstLetter = undefined;
-  } else if (
-    arrCorrectLetters.length > 0 &&
-    arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&
-    currentCorona.type == TYPE_BLACK
-  ) {
-    arrCorrectLetters = [];
-    end = true;
-    firstLetter = undefined;
     currentCorona = undefined;
+  } else {
+    end = true;
   }
-  // nhu tên
-  findAndRemoveCoronaWithWrongLetters();
 };
-//Tìm và xoá Corona nếu có, khi nhập sai từ trong current corona
-const findAndRemoveCoronaWithWrongLetters = () => {
+//set current corona  mới nếu có, khi nhập sai từ ở corona đầu tiên
+const selectCurrentCoronaWithWrongLetters = () => {
   let count = 0;
   for (let covid of arrCorona) {
-    if (arrWrongLetters.length > 1) {
-      if (
-        Object.values(covid.character)[1] === arrWrongLetters.join("") &&
-        covid.type != TYPE_BLACK
-      ) {
-        removeCorona(covid);
-        arrWrongLetters = [];
-        coronaBackup = covid;
-        currentCorona = undefined;
-        break;
-      } else if (
-        Object.values(covid.character)[1] === arrWrongLetters.join("") &&
-        covid.type == TYPE_BLACK
-      ) {
-        end = true;
-        break;
-      } else if (
-        Object.values(covid.character)[1] != arrWrongLetters.join("") &&
-        covid.type == TYPE_BLACK
-      ) {
-        count += 1;
-      }
+    let coronaChar = Object.values(covid.character)[1].slice(
+      0,
+      arrWrongLetters.length
+    );
+    if (coronaChar === arrWrongLetters.join("")) {
+      arrCorrectLetters = arrWrongLetters;
+      arrWrongLetters = [];
+      currentCorona = covid;
+      break;
+    } else if (coronaChar != arrWrongLetters.join("")) {
+      count += 1;
     }
   }
+  // không có corona nào thoả các từ
   if (count == arrCorona.length) {
     arrWrongLetters = [];
     currentCorona = undefined;
   }
 };
 
-// bat su kien nhan tu
+// bat su kien nhan phim
 document.addEventListener("keypress", (e) => {
-  const key = e.key;
+  const key = e.key.toLowerCase();
   // chua co current corona thi set current
   if (currentCorona === undefined) {
     firstLetter = key;
     selectCurrentCorona();
   }
+
   // Kiểm tra kí tự của current corona vs key
   if (checkLetterOfCurrentCorona(arrCorrectLetters, key)) {
     arrCorrectLetters.push(key);
   } else {
     arrWrongLetters = arrCorrectLetters;
     arrWrongLetters.push(key);
-    arrCorrectLetters = [];
     firstLetter = undefined;
+    arrCorrectLetters = [];
     currentCorona = undefined;
   }
 });
@@ -264,6 +255,10 @@ btnR.addEventListener("click", (e) => {
   arrCorona = [];
   repeatTime = 0;
   score = 0;
+  currentCorona = undefined;
+  firstLetter = undefined;
+  arrCorrectLetters = [];
+  arrWrongLetters =[];
   characters = data.map((e) => e);
   play();
 });
