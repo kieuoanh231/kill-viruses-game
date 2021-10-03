@@ -13,8 +13,7 @@ const createCorona = () => {
     arrLength += 1;
     let image = imgArray[mRandom(0, imgArray.length)];
     arrCorona.push(new Corona(character, image));
-  } else
-  if (percent > 15) {
+  } else if (percent > 15) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
     arrLength += 1;
@@ -74,14 +73,17 @@ const drawNotification = () => {
 const drawScore = () => {
   ctx.drawImage(khungDiem, canvas.width - 165, 10, 150, 35);
   ctx.font = "500 20px Poppins";
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
   ctx.fillStyle = "white";
-  ctx.fillText(`${score}`, canvas.width - 90, 28);
+  ctx.fillText(`${score}`, canvas.width - 87, 28);
 };
 
 //animation cho corona
 const animation = () => {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   isStart = false;
+  repeatTime += 0.5;
 
   if (waveIndex > 3 && checkBoss == false) {
     checkBoss = true;
@@ -94,9 +96,8 @@ const animation = () => {
     }
   }
   drawCoronas();
-  repeatTime += 0.5;
-  completedAWord();
   drawScore();
+  completedAWord();
   drawNotification();
   request = requestAnimationFrame(animation);
   finishedWave(wave[waveIndex], repeatTime % 100 == 0);
@@ -135,8 +136,6 @@ const checkWhenCoronaTouchBottom = (covid) => {
     removeCorona(covid);
   }
 };
-const checkRound = (arr) => {};
-
 // Hoàn thành xong từ
 const completedAWord = () => {
   // Xoá corona khi nhập đúng từ trong current corona
@@ -146,7 +145,7 @@ const completedAWord = () => {
   ) {
     findAndRemoveCoronaWithCorrectLetters();
   }
-  if (arrWrongLetters.length > 1) {
+  if (arrWrongLetters.length > 1 && checkBoss == false) {
     selectCurrentCoronaWithWrongLetters();
   }
 };
@@ -161,9 +160,18 @@ const findAndRemoveCoronaWithCorrectLetters = () => {
       checkKill += 1;
       currentCorona = undefined;
     } else {
-      let rdIndex = mRandom(0, bossCharacters.length);
-      bossCharacter = bossCharacters[rdIndex];
-      currentCorona.character = bossCharacter;
+      if (bossCharacters.length > 0) {
+        let rdIndex = mRandom(0, bossCharacters.length);
+        bossCharacter = bossCharacters[rdIndex];
+        bossCharacters.splice(rdIndex, 1);
+        currentCorona.character = bossCharacter;
+      } else {
+        removeCorona(currentCorona);
+        setTimeout(() => {
+          end = true;
+        }, 20);
+        // checkBoss=false;
+      }
     }
     firstLetter = undefined;
     currentCorona = undefined;
@@ -184,7 +192,7 @@ const selectCurrentCoronaWithWrongLetters = () => {
       arrWrongLetters = [];
       currentCorona = covid;
       break;
-    } else if (coronaChar != arrWrongLetters.join("")) {
+    } else {
       count += 1;
     }
   }
@@ -194,7 +202,6 @@ const selectCurrentCoronaWithWrongLetters = () => {
     currentCorona = undefined;
   }
 };
-
 // bat su kien nhan phim
 document.addEventListener("keypress", (e) => {
   const key = e.key.toLowerCase();
@@ -203,7 +210,6 @@ document.addEventListener("keypress", (e) => {
     firstLetter = key;
     selectCurrentCorona();
   }
-
   // Kiểm tra kí tự của current corona vs key
   if (checkLetterOfCurrentCorona(arrCorrectLetters, key)) {
     arrCorrectLetters.push(key);
@@ -238,7 +244,6 @@ const checkLetterOfCurrentCorona = (arrCorrectLetters, keyPress) => {
   }
   return check;
 };
-
 //play game
 const play = () => {
   isStart = true;
@@ -258,11 +263,13 @@ btnR.addEventListener("click", (e) => {
   currentCorona = undefined;
   firstLetter = undefined;
   arrCorrectLetters = [];
-  arrWrongLetters =[];
+  arrWrongLetters = [];
   characters = data.map((e) => e);
+  bossCharacters = bossData.map((e) => e);
+  waveIndex = 1;
+  checkBoss = false;
   play();
 });
-
 //bat su kien nut play
 btn.addEventListener("click", (e) => {
   play();
