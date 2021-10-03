@@ -3,20 +3,36 @@ const mRandom = (min, max) => {
 };
 //tạo corona
 const createCorona = () => {
+  //random vị trí character
   let rdIndex = mRandom(0, characters.length);
   let character = characters[rdIndex];
   characters.splice(rdIndex, 1);
+  //Tạo xác suất xuất hiện corona
   let percent = mRandom(0, 100);
+  //Tạo corona thường
   if (percent > 30) {
     arrLength += 1;
     let image = imgArray[mRandom(0, imgArray.length)];
     arrCorona.push(new Corona(character, image));
-  } else
-  if (percent > 20) {
+  } else if (percent > 20) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
   } else {
     arrLength += 1;
     arrCorona.push(new Corona(character, coronaStar, TYPE_STAR));
+  }
+};
+
+const createCoronaBoss = () => {
+  //random vị trí characterBoss
+  let rdIndex = mRandom(0, bossCharacters.length);
+  bossCharacter = bossCharacters[rdIndex];
+  bossCharacters.splice(rdIndex, 1);
+  //tạo coronaBoss
+  if (waveIndex > 3) {
+    coronaBoss = new Corona(bossCharacter, coronaBossImage, TYPE_BOSS);
+    coronaBoss.x = canvas.width / 2;
+    coronaBoss.y = -60;
+    arrCorona.push(coronaBoss);
   }
 };
 //xoá corona
@@ -29,7 +45,7 @@ const drawCoronas = () => {
   for (let covid of arrCorona) {
     checkWhenCoronaTouchBottom(covid);
     isCurrentCorona = covid == currentCorona ? true : false;
-    covid.draw(isCurrentCorona);
+    covid.draw(isCurrentCorona, checkBoss);
     covid.update();
   }
 };
@@ -56,33 +72,42 @@ const drawNotification = () => {
   }
 };
 const drawScore = () => {
-  ctx.drawImage(khungDiem, canvas.width - (150 + 15), 10, 150, 35);
+  ctx.drawImage(khungDiem, canvas.width - 165, 10, 150, 35);
+  ctx.font = "500 20px Poppins";
   ctx.fillStyle = "white";
-  ctx.fillText(`${score}`, canvas.width - 75 - 15, 28);
-  // ctx.drawImage(khungVang, canvas.width - (150 + 15), 60, 150, 35);
-  // ctx.drawImage(khungVang, 0 + 15, 10, 150, 35);
+  ctx.fillText(`${score}`, canvas.width - 90, 28);
 };
+
+//animation cho corona
 const animation = () => {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   isStart = false;
-  if (repeatTime % 100 == 0) {
-    if (arrLength < wave[waveIndex]) {
-      createCorona();
+
+  if (waveIndex > 3 && checkBoss == false) {
+    checkBoss = true;
+    createCoronaBoss();
+  } else {
+    if (repeatTime % 100 == 0) {
+      if (arrLength < wave[waveIndex]) {
+        createCorona();
+      }
     }
   }
-  repeatTime += 0.5;
   drawCoronas();
+  repeatTime += 0.5;
   completedAWord();
   drawScore();
   drawNotification();
   request = requestAnimationFrame(animation);
   finishedWave(wave[waveIndex], repeatTime % 100 == 0);
+
   if (end) {
     end = false;
     cancelAnimationFrame(request);
     btnR.style.display = "inline-block";
   }
 };
+
 //hoàn thành 1 wave
 const finishedWave = (coronaNumber, check) => {
   if (check) {
@@ -95,12 +120,9 @@ const finishedWave = (coronaNumber, check) => {
       cancelAnimationFrame(request);
       setTimeout(function () {
         play();
-      }, 1000);
+      }, 500);
       repeatTime = 0;
       waveIndex += 1;
-      if (waveIndex > 3) {
-        waveIndex = 1;
-      }
     }
   }
 };
@@ -126,10 +148,16 @@ const completedAWord = () => {
     score += currentCorona.type == TYPE_STAR ? 2 : 1;
     arrCorrectLetters = [];
     coronaBackup = currentCorona;
-    removeCorona(currentCorona);
-    checkKill += 1;
+    if (checkBoss != true) {
+      removeCorona(currentCorona);
+      checkKill += 1;
+      currentCorona = undefined;
+    } else {
+      let rdIndex = mRandom(0, bossCharacters.length);
+      bossCharacter = bossCharacters[rdIndex];
+      currentCorona.character = bossCharacter;
+    }
     firstLetter = undefined;
-    currentCorona = undefined;
   } else if (
     arrCorrectLetters.length > 0 &&
     arrCorrectLetters.join("") === Object.values(currentCorona.character)[1] &&

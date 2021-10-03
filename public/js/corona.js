@@ -5,19 +5,42 @@ class Corona {
     this.character = character;
     this.image = image;
     this.type = type;
+    this.vx = 0.5;
   }
 
   update() {
-    this.y += 0.5;
+    if (checkBoss == true) {
+      if (this.y == canvas.height / 2 - 30) {
+        this.y = canvas.height / 2 - 30;
+        let bossX = false;
+        //Boss chạy từ trái sang phải phải sang trái
+        this.x += this.vx;
+        if (
+          this.x + 261.5 + this.vx > canvas.width ||
+          this.x - 261.5 + this.vx < 0
+        ) {
+          this.vx = -this.vx;
+        }
+      } else {
+        this.y += 1;
+      }
+    } else {
+      this.y += 0.5;
+    }
   }
 
   // draw() {
   //   ctx.drawImage(this.image, this.x - 35, this.y - 35, 70, 70);
   //   this.#drawText();
   // }
-  draw(check = true) {
-    ctx.drawImage(this.image, this.x - 35, this.y - 35, 70, 70);
-    if (check == false ) {
+  draw(check, checkB) {
+    if (checkB == true) {
+      ctx.drawImage(this.image, this.x - 261.5, this.y - 167.5, 523, 337);
+    } else {
+      ctx.drawImage(this.image, this.x - 35, this.y - 35, 70, 70);
+    }
+    
+    if (check == false) {
       this.#drawText();
     } else {
       this.#drawText2();
@@ -29,13 +52,24 @@ class Corona {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "white";
-    ctx.fillText(this.character.hiragana, this.x, this.y);
+    if (checkBoss == true) {
+      ctx.fillStyle = "#2a2363";
+      ctx.font = "500 50px Poppins";
+      ctx.fillText(this.character.hiragana, this.x, this.y + 130);
+    } else {
+      ctx.fillText(this.character.hiragana, this.x, this.y);
+    }
   }
   #drawText2() {
     ctx.font = "500 20px Poppins";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     ctx.fillStyle = "red";
-    ctx.fillText(this.character.hiragana, this.x, this.y);
+    if (checkBoss == true) {
+      ctx.font = "500 50px Poppins";
+      ctx.fillText(this.character.hiragana, this.x, this.y + 130);
+    } else {
+      ctx.fillText(this.character.hiragana, this.x, this.y);
+    }
   }
 }

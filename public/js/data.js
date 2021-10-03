@@ -120,4 +120,8 @@ const data = [
   { hiragana: "九", romaji: "9" },
 ];
 
-const bossData = [{ hiragana: "おはようございます", romaji: "ohayougozaimasu" }];
+const bossData = [
+  { hiragana: "こんにちは", romaji: "konnichiwa" },
+  { hiragana: "おはようございます", romaji: "ohayougozaimasu" },
+  { hiragana: "いただきます", romaji: "itadakimasu" },
+];
