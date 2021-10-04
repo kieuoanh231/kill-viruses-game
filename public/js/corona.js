@@ -1,7 +1,7 @@
 class Corona {
   constructor(character, image, type = TYPE_NORMAL) {
     this.x = mRandom(30, canvas.width - 30);
-    this.y = -30;
+    this.y =-30;
     this.character = character;
     this.image = image;
     this.type = type;

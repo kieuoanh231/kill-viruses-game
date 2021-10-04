@@ -61,7 +61,7 @@ const drawNotification = () => {
         ctx.textBaseline = "middle";
         ctx.fillStyle = "white";
         ctx.fillText(text, coronaBackup.x, y);
-        opacity = opacity + 0.5;
+        opacity = opacity + 1;
       } else {
         checkAnimation = false;
         opacity = 0;
@@ -83,7 +83,6 @@ const drawScore = () => {
 const animation = () => {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   isStart = false;
-  repeatTime += 0.5;
 
   if (waveIndex > 3 && checkBoss == false) {
     checkBoss = true;
@@ -95,6 +94,7 @@ const animation = () => {
       }
     }
   }
+  repeatTime += 0.5;
   drawCoronas();
   drawScore();
   completedAWord();
@@ -121,7 +121,7 @@ const finishedWave = (coronaNumber, check) => {
       cancelAnimationFrame(request);
       setTimeout(function () {
         play();
-      }, 500);
+      }, 2000);
       repeatTime = 0;
       waveIndex += 1;
     }
