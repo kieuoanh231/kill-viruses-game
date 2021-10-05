@@ -106,6 +106,7 @@ const animation = () => {
     end = false;
     cancelAnimationFrame(request);
     btnR.style.display = "inline-block";
+    backgroundAudio.pause();
   }
 };
 
@@ -131,6 +132,9 @@ const finishedWave = (coronaNumber, check) => {
 const checkWhenCoronaTouchBottom = (covid) => {
   if (covid.y > canvas.height - 30 && covid.type != TYPE_BLACK) {
     end = true;
+    backgroundAudio.pause();
+    gameoverAudio.currentTime = 0;
+    gameoverAudio.play();
   } else if (covid.y > canvas.height + 30 && covid.type == TYPE_BLACK) {
     characters.push(covid.character);
     removeCorona(covid);
@@ -159,14 +163,20 @@ const findAndRemoveCoronaWithCorrectLetters = () => {
       removeCorona(currentCorona);
       checkKill += 1;
       currentCorona = undefined;
+      correctAudio.currentTime = 0;
+      correctAudio.play();
     } else {
       if (bossCharacters.length > 0) {
         let rdIndex = mRandom(0, bossCharacters.length);
         bossCharacter = bossCharacters[rdIndex];
         bossCharacters.splice(rdIndex, 1);
         currentCorona.character = bossCharacter;
+        correctAudio.currentTime = 0;
+        correctAudio.play();
       } else {
         removeCorona(currentCorona);
+        winAudio.currentTime = 0;
+        winAudio.play();
         setTimeout(() => {
           end = true;
         }, 20);
@@ -177,6 +187,8 @@ const findAndRemoveCoronaWithCorrectLetters = () => {
     currentCorona = undefined;
   } else {
     end = true;
+    gameoverAudio.currentTime = 0;
+    gameoverAudio.play();
   }
 };
 //set current corona  mới nếu có, khi nhập sai từ ở corona đầu tiên
@@ -219,6 +231,8 @@ document.addEventListener("keypress", (e) => {
     firstLetter = undefined;
     arrCorrectLetters = [];
     currentCorona = undefined;
+    incorrectAudio.currentTime = 0;
+    incorrectAudio.play();
   }
 });
 //Tìm và set current corona (đc gọi trong bắt sư kiện nhấn phím)
@@ -269,8 +283,14 @@ btnR.addEventListener("click", (e) => {
   waveIndex = 1;
   checkBoss = false;
   play();
+  backgroundAudio.currentTime = 0;
+  backgroundAudio.loop = true;
+  backgroundAudio.play();
 });
 //bat su kien nut play
 btn.addEventListener("click", (e) => {
   play();
+  backgroundAudio.currentTime = 0;
+  backgroundAudio.loop = true;
+  backgroundAudio.play();
 });

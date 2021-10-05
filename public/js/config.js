@@ -34,6 +34,12 @@ const wave = {
   3: 3,
 };
 
+const backgroundAudio = new Audio('./public/audio/Background.mp3');
+const correctAudio = new Audio('./public/audio/correct.mp3');
+const gameoverAudio = new Audio('./public/audio/gameover.mp3');
+const incorrectAudio = new Audio('./public/audio/incorrect.mp3');
+const winAudio = new Audio('./public/audio/win.mp3');
+
 let arrCorona = [];
 const TYPE_NORMAL = 1;
 const TYPE_STAR = 2;
