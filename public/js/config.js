@@ -28,6 +28,9 @@ imgArray[2].src = "./public/images/corona5.png";
 imgArray[3] = new Image();
 imgArray[3].src = "./public/images/corona6.png";
 
+const imgHeart = new Image();
+imgHeart.src = "./public/images/heart.svg.png";
+
 const wave = {
   1: 1,
   2: 2,
@@ -69,4 +72,4 @@ let coronaBoss = undefined;
 let checkBoss=false;
 let bossCharacter=undefined;
 let checkColor=false;
-// let gameFrame=0;
+let hearts = 3;

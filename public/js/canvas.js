@@ -78,6 +78,14 @@ const drawScore = () => {
   ctx.fillStyle = "white";
   ctx.fillText(`${score}`, canvas.width - 87, 28);
 };
+// vẽ trái tim
+const drawHearts = () => {
+  if (checkBoss == true) {
+    for (let i = 0; i < hearts; i++) {
+      ctx.drawImage(imgHeart, canvas.width - 135 + (35 * i), 55, 30, 30);
+    }
+  }
+};
 
 //animation cho corona
 const animation = () => {
@@ -97,6 +105,7 @@ const animation = () => {
   }
   drawCoronas();
   drawScore();
+  drawHearts();
   completedAWord();
   drawNotification();
   request = requestAnimationFrame(animation);
@@ -283,14 +292,14 @@ btnR.addEventListener("click", (e) => {
   waveIndex = 1;
   checkBoss = false;
   play();
-  backgroundAudio.currentTime = 0;
-  backgroundAudio.loop = true;
-  backgroundAudio.play();
+  // backgroundAudio.currentTime = 0;
+  // backgroundAudio.loop = true;
+  // backgroundAudio.play();
 });
 //bat su kien nut play
 btn.addEventListener("click", (e) => {
   play();
-  backgroundAudio.currentTime = 0;
-  backgroundAudio.loop = true;
-  backgroundAudio.play();
+  // backgroundAudio.currentTime = 0;
+  // backgroundAudio.loop = true;
+  // backgroundAudio.play();
 });
