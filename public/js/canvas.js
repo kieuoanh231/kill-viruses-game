@@ -292,14 +292,14 @@ btnR.addEventListener("click", (e) => {
   waveIndex = 1;
   checkBoss = false;
   play();
-  // backgroundAudio.currentTime = 0;
-  // backgroundAudio.loop = true;
-  // backgroundAudio.play();
+  backgroundAudio.currentTime = 0;
+  backgroundAudio.loop = true;
+  backgroundAudio.play();
 });
 //bat su kien nut play
 btn.addEventListener("click", (e) => {
   play();
-  // backgroundAudio.currentTime = 0;
-  // backgroundAudio.loop = true;
-  // backgroundAudio.play();
+  backgroundAudio.currentTime = 0;
+  backgroundAudio.loop = true;
+  backgroundAudio.play();
 });
