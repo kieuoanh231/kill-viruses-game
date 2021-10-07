@@ -72,4 +72,4 @@ let coronaBoss = undefined;
 let checkBoss=false;
 let bossCharacter=undefined;
 let checkColor=false;
-let hearts = 3;
+let hearts = 7;

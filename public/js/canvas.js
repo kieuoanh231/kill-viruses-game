@@ -61,7 +61,7 @@ const drawNotification = () => {
         ctx.textBaseline = "middle";
         ctx.fillStyle = "white";
         ctx.fillText(text, coronaBackup.x, y);
-        opacity = opacity + 0.5;
+        opacity = opacity + 1;
       } else {
         checkAnimation = false;
         opacity = 0;
@@ -82,7 +82,8 @@ const drawScore = () => {
 const drawHearts = () => {
   if (checkBoss == true) {
     for (let i = 0; i < hearts; i++) {
-      ctx.drawImage(imgHeart, canvas.width - 135 + (35 * i), 55, 30, 30);
+      ctx.drawImage(imgHeart, canvas.width - 40 - (25 * i), 55, 20, 20);
+      // ctx.drawImage(imgHeart, canvas.width / 3 + (35 * i), 55, 30, 30);
     }
   }
 };
@@ -91,7 +92,7 @@ const drawHearts = () => {
 const animation = () => {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   isStart = false;
-  repeatTime += 0.5;
+  
 
   if (waveIndex > 3 && checkBoss == false) {
     checkBoss = true;
@@ -103,6 +104,7 @@ const animation = () => {
       }
     }
   }
+  repeatTime += 0.5;
   drawCoronas();
   drawScore();
   drawHearts();
@@ -175,20 +177,25 @@ const findAndRemoveCoronaWithCorrectLetters = () => {
       correctAudio.currentTime = 0;
       correctAudio.play();
     } else {
+      if (bossCharacters.length == 0) {
+        hearts = 0;
+      }
       if (bossCharacters.length > 0) {
         let rdIndex = mRandom(0, bossCharacters.length);
         bossCharacter = bossCharacters[rdIndex];
         bossCharacters.splice(rdIndex, 1);
         currentCorona.character = bossCharacter;
+        hearts--;
         correctAudio.currentTime = 0;
         correctAudio.play();
       } else {
         removeCorona(currentCorona);
+        checkAnimation = false;
         winAudio.currentTime = 0;
         winAudio.play();
         setTimeout(() => {
           end = true;
-        }, 20);
+        }, 50);
         // checkBoss=false;
       }
     }
