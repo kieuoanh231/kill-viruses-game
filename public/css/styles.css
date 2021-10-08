@@ -17,9 +17,10 @@
 .frame,
 .name {
   position: absolute;
-  z-index: 999;
+  z-index: 900;
 }
-.home-screen {
+.home-screen,
+.high-score-screen {
   position: absolute;
   display: flex;
   justify-content: center;
@@ -38,9 +39,8 @@
 }
 .btn {
   position: absolute;
-  margin-top: 50px;
   height: 67px;
-  z-index: 999;
+  z-index: 900;
   display: inline-block;
   padding: 0 80px;
   border-radius: 10px;
@@ -56,7 +56,7 @@
   transform: scale(1);
   transition: transform 0.2s;
 }
-.btn:hover {
+.btn:hover,.btn-back:hover {
   transform: scale(1.05);
   color: #00226f;
   background-color: #ffffff;
@@ -64,7 +64,13 @@
 .btn-restart {
   display: none;
 }
-
+.btn-highscore {
+  margin-top: 180px;
+  padding: 0 62px;
+}
+.btn-shop {
+  margin-top: 350px;
+}
 .waveText {
   font-family: "elfboyclassic";
   font-size: 100px;
@@ -95,4 +101,69 @@
 
 .waveText {
   display: none;
+}
+.btn-pause,
+.btn-continue {
+  display: none;
+  cursor: pointer;
+  z-index: 900;
+  position: absolute;
+  bottom: 15%;
+  right: 22%;
+}
+.btn-pause img,
+.btn-continue img {
+  width: 50px;
+}
+.high-score-screen {
+  display: none;
+  flex-direction: column;
+}
+.board {
+  display: flex;
+  font-family: "elfboyclassic";
+  text-align: center;
+  background: #ffffff;
+  width: 500px;
+  height: 300px;
+  border-radius: 10px;
+  justify-content: center;
+  flex-direction: column;
+}
+.board h1 {
+  font-size: 70px;
+  color: #fd8000;
+}
+.score {
+  margin: 0 50px;
+  border-bottom: 2px solid gray;
+  font-size: 50px;
+  display: flex;
+  justify-content: space-between;
+}
+.scrollbar {
+  z-index: 999;
+  overflow-y: scroll;
+  margin-bottom: 25px;
+  cursor: pointer;
+  margin-top: 5px;
+}
+.btn-back {
+  margin-top: 10px;
+  z-index: 900;
+  display: inline-block;
+  border-radius: 10px;
+  text-decoration: none;
+  box-sizing: border-box;
+  font-family: "elfboyclassic";
+  font-size: 50px;
+  color: #ffffff;
+  text-align: center;
+  transition: all 0.2s;
+  background: #00226f;
+  cursor: pointer;
+  transform: scale(1);
+  transition: transform 0.2s;
+  padding: 0px 50px;
+  height: 45px;
 }

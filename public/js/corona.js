@@ -1,7 +1,7 @@
 class Corona {
   constructor(character, image, type = TYPE_NORMAL) {
     this.x = mRandom(30, canvas.width - 30);
-    this.y =-30;
+    this.y = -30;
     this.character = character;
     this.image = image;
     this.type = type;
@@ -39,11 +39,15 @@ class Corona {
     } else {
       ctx.drawImage(this.image, this.x - 35, this.y - 35, 70, 70);
     }
-    
+
     if (check == false) {
       this.#drawText();
     } else {
-      this.#drawText2();
+      if (checkB) {
+        this.#drawText3();
+      } else {
+        this.#drawText2();
+      }
     }
   }
 
@@ -61,6 +65,18 @@ class Corona {
     }
   }
   #drawText2() {
+    ctx.font = "500 20px Poppins";
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillStyle = "yellow";
+    if (checkBoss == true) {
+      ctx.font = "500 50px Poppins";
+      ctx.fillText(this.character.hiragana, this.x, this.y + 130);
+    } else {
+      ctx.fillText(this.character.hiragana, this.x, this.y);
+    }
+  }
+  #drawText3() {
     ctx.font = "500 20px Poppins";
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";

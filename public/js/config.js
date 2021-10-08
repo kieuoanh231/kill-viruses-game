@@ -2,6 +2,13 @@ const name_game = document.querySelector(".name");
 const btn = document.querySelector(".btn-play");
 const btnR = document.querySelector(".btn-restart");
 const waveText = document.querySelector(".waveText");
+const btnPause = document.querySelector(".btn-pause");
+const btnContinue = document.querySelector(".btn-continue");
+const btnHighScore = document.querySelector(".btn-highscore");
+const homeScreen = document.querySelector(".home-screen");
+const highScoreScreen = document.querySelector(".high-score-screen");
+const scrollBoard = document.querySelector(".scrollbar");
+const btnBack = document.querySelector(".btn-back");
 const canvas = document.querySelector(".game");
 const ctx = canvas.getContext("2d");
 
@@ -25,14 +32,22 @@ imgArray[1].src = "./public/images/corona4.png";
 imgArray[2] = new Image();
 imgArray[2].src = "./public/images/corona5.png";
 
-imgArray[3] = new Image();
-imgArray[3].src = "./public/images/corona6.png";
+const imgHeart = new Image();
+imgHeart.src = "./public/images/heart_boss.png";
 
+const imgShield = new Image();
+imgShield.src = "./public/images/shield.png";
 const wave = {
   1: 1,
   2: 2,
   3: 3,
 };
+
+const backgroundAudio = new Audio("./public/audio/Background.mp3");
+const correctAudio = new Audio("./public/audio/correct.mp3");
+const gameoverAudio = new Audio("./public/audio/gameover.mp3");
+const incorrectAudio = new Audio("./public/audio/incorrect.mp3");
+const winAudio = new Audio("./public/audio/win.mp3");
 
 let arrCorona = [];
 const TYPE_NORMAL = 1;
@@ -54,13 +69,32 @@ let lastCompleteX = undefined;
 let opacity = 1;
 let isCurrentCorona = false;
 let score = 0;
-let checkKill= 0;
-let arrLength=0;
-let arrWrongLetters=[];
-let checkBlack=true;
+let checkKill = 0;
+let arrLength = 0;
+let arrWrongLetters = [];
+let checkBlack = true;
 let coronaBackup = undefined;
 let coronaBoss = undefined;
-let checkBoss=false;
-let bossCharacter=undefined;
-let checkColor=false;
-// let gameFrame=0;
+let checkBoss = false;
+let bossCharacter = undefined;
+let checkColor = false;
+let hearts = 5;
+let checkAnimation = true;
+let shields = 3;
+const highScores = [
+  {
+    score: 30,
+    time: "12/12/2021",
+  },
+  {
+    score: 20,
+    time: "12/12/2021",
+  },
+];
+highScores.map((e) => {
+  scrollBoard.innerHTML += `<div class="score">
+  <div class="number">${e.score}</div>
+  <div class="time">${e.time}</div>
+</div>`;
+});
+
