@@ -4,14 +4,46 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Protect The Zoo</title>
-    <link rel="stylesheet" href="public/css/styles.css">
+    <title>DAP DICH</title>
+    <link rel="stylesheet" href="public/css/styles.css" />
   </head>
   <body>
     <div class="main">
-      <canvas class="game" width="852px" height="450px"> </canvas>
-      <!-- <canvas id="my_canvas" width="870px" height="470px"></canvas> -->
+      <img class="frame" src="./public/images/Khung.png" alt="" srcset="" />
+      <div class="home-screen">
+        <img
+          class="name"
+          src="./public/images/name_game.png"
+          alt=""
+          srcset=""
+        />
+        <a class="btn btn-play">PLAY</a>
+        <a class="btn btn-highscore">BOARD</a>
+        <!-- <a class="btn btn-shop">SHOP</a> -->
+        <a class="btn btn-restart">RESTART</a>
+        <a class="btn-pause"
+          ><img src="./public/images/buttonPause.png" alt=""
+        /></a>
+        <a class="btn-continue"
+          ><img src="./public/images/buttonplay.png" alt=""
+        /></a>
+        <a class="btn-home"><img src="./public/images/btnhome.png" alt="" /></a>
+      </div>
+      <div class="high-score-screen">
+        <div class="board">
+          <h1>HIGH SCORE</h1>
+          <div class="scrollbar">
+          </div>
+        </div>
+        <a class="btn-back">BACK</a>
+      </div>
+      <div class="display waveText"></div>
+      <canvas class="game" width="770px" height="500px"></canvas>
     </div>
-    <!-- <script src="public/js/canvas.js"></script> -->
+    <script src="public/js/data.js"></script>
+    <script src="public/js/corona.js"></script>
+    <script src="public/js/config.js"></script>
+    <script src="public/js/canvas.js"></script>
+    <!-- <script src="public/js/test.js"></script> -->
   </body>
 </html>
