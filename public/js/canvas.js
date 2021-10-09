@@ -27,7 +27,7 @@ const createCoronaBoss = () => {
   bossCharacter = bossCharacters[rdIndex];
   bossCharacters.splice(rdIndex, 1);
   //tạo coronaBoss
-  if (waveIndex > 3) {
+  if (waveIndex >= 3) {
     coronaBoss = new Corona(bossCharacter, coronaBossImage, TYPE_BOSS);
     coronaBoss.x = canvas.width / 2;
     coronaBoss.y = -60;
@@ -130,7 +130,7 @@ const drawSkill = () => {
 const animation = () => {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
   isStart = false;
-  if (waveIndex > 3 && checkBoss == false) {
+  if (waveIndex >= 3 && checkBoss == false) {
     checkBoss = true;
     createCoronaBoss();
   } else {
@@ -180,7 +180,13 @@ const finishedWave = (coronaNumber, check) => {
       checkKill = 0;
       arrLength = 0;
       waveText.style.display = "inline-block";
-      waveText.innerHTML = "WAVE " + waveIndex;
+      console.log(waveIndex);
+      if(waveIndex==2){
+        waveText.innerHTML = "FINAL";
+      }
+      else{
+        waveText.innerHTML = "WAVE " + (waveIndex+1);
+      }
       cancelAnimationFrame(request);
       setTimeout(function () {
         play();

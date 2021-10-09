@@ -43,9 +43,9 @@ const imgSkillOff = new Image();
 imgSkillOff.src = "./public/images/skilloff.png";
 
 const wave = {
-  1: 5,
-  2: 10,
-  3: 15,
+  0: 5,
+  1: 10,
+  2: 15,
 };
 
 const backgroundAudio = new Audio("./public/audio/Background.mp3");
@@ -66,7 +66,7 @@ let bossCharacters = bossData.map((e) => e);
 var repeatTime = 0;
 let request;
 let isStart = false;
-let waveIndex = 1;
+let waveIndex = 0;
 let firstLetter = undefined;
 let currentCorona = undefined;
 let arrCorrectLetters = [];
