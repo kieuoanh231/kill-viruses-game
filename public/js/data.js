@@ -128,4 +128,9 @@ const bossData = [
   { hiragana: "こんばんは", romaji: "konbanwa" },
   { hiragana: "ただいま", romaji: "tadaima" },
   { hiragana: "日本は大好きです", romaji: "nihonwadaisukidesu" },
+  { hiragana: "ごめんなさい", romaji: "gomennasai" },
+  { hiragana: "初めまして", romaji: "hajimemashite" },
+  { hiragana: "さよなら", romaji: "sayonara" },
+  { hiragana: "おやすみなさい", romaji: "oyasuminasai" },
+  { hiragana: "お願いします", romaji: "onegaishimasu" },
 ];

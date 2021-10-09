@@ -29,10 +29,6 @@ class Corona {
     }
   }
 
-  // draw() {
-  //   ctx.drawImage(this.image, this.x - 35, this.y - 35, 70, 70);
-  //   this.#drawText();
-  // }
   draw(check, checkB) {
     if (checkB == true) {
       ctx.drawImage(this.image, this.x - 261.5, this.y - 167.5, 523, 337);
