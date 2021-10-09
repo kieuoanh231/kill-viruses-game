@@ -1,17 +1,17 @@
-const mRandom = (min, max) => {
+const randomNumber = (min, max) => {
   return Math.floor(Math.random() * (max - min) + min);
 };
 //tạo corona
 const createCorona = () => {
   //random vị trí character
-  let rdIndex = mRandom(0, characters.length);
+  let rdIndex = randomNumber(0, characters.length);
   let character = characters[rdIndex];
   characters.splice(rdIndex, 1);
   //Tạo xác suất xuất hiện corona
-  let percent = mRandom(0, 100);
+  let percent = randomNumber(0, 100);
   if (percent > 25) {
     arrLength += 1;
-    let image = imgArray[mRandom(0, imgArray.length)];
+    let image = imgArray[randomNumber(0, imgArray.length)];
     arrCorona.push(new Corona(character, image));
   } else if (percent > 15) {
     arrCorona.push(new Corona(character, coronaBlack, TYPE_BLACK));
@@ -23,7 +23,7 @@ const createCorona = () => {
 
 const createCoronaBoss = () => {
   //random vị trí characterBoss
-  let rdIndex = mRandom(0, bossCharacters.length);
+  let rdIndex = randomNumber(0, bossCharacters.length);
   bossCharacter = bossCharacters[rdIndex];
   bossCharacters.splice(rdIndex, 1);
   //tạo coronaBoss
@@ -48,11 +48,19 @@ const drawCoronas = () => {
     covid.update();
   }
 };
-// vẽ thông báo
+// vẽ thông báo điểm
 const drawNotification = () => {
   checkAnimation = true;
   if (coronaBackup != undefined) {
-    const text = coronaBackup.type == TYPE_STAR ? "+2" : "+1";
+    let text = 0;
+    if (coronaBackup.type == TYPE_STAR) {
+      text = "+2";
+    } else if (coronaBackup.type == TYPE_NORMAL) {
+      text = "+1";
+    } else {
+      text = "+3";
+    }
+    // const text = coronaBackup.type == TYPE_STAR ? "+2" : "+1";
     if (checkAnimation) {
       let y = coronaBackup.y - opacity;
       if (y > coronaBackup.y - 20) {
@@ -67,6 +75,24 @@ const drawNotification = () => {
         opacity = 0;
         coronaBackup = undefined;
       }
+    }
+  }
+};
+const drawNotificationWhenUsedSkill = (score) => {
+  if (!skillCheck && !firstUse) {
+    let y = canvas.height / 2 - opacity;
+    if (y > canvas.height / 2 - 20) {
+      ctx.font = "600 20px Poppins";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+      ctx.fillStyle = "white";
+      ctx.fillText(`+${score}`, canvas.width / 2, y);
+      opacity = opacity + 1;
+      setTimeout(function () {
+        firstUse = true;
+        checkAnimation = false;
+        opacity = 0;
+      }, 300);
     }
   }
 };
@@ -93,7 +119,13 @@ const drawShield = () => {
     ctx.drawImage(imgShield, 14 + 35 * i, 10, 28, 28);
   }
 };
-
+const drawSkill = () => {
+  if (skillCheck) {
+    ctx.drawImage(imgSkill, 14, canvas.height - 70, 60, 60);
+  } else {
+    ctx.drawImage(imgSkillOff, 14, canvas.height - 70, 60, 60);
+  }
+};
 //animation cho corona
 const animation = () => {
   ctx.clearRect(0, 0, innerWidth, innerHeight);
@@ -102,15 +134,17 @@ const animation = () => {
     checkBoss = true;
     createCoronaBoss();
   } else {
-    if (repeatTime % 100 == 0) {
+    if (repeatTime % 25 == 0) {
       if (arrLength < wave[waveIndex]) {
         createCorona();
       }
     }
   }
-  repeatTime += 0.5;
+  repeatTime += 1.5;
   drawCoronas();
   drawShield();
+  drawSkill();
+  drawNotificationWhenUsedSkill(scoreSkill);
   drawScore();
   drawHearts();
   completedAWord();
@@ -119,15 +153,22 @@ const animation = () => {
   finishedWave(wave[waveIndex], repeatTime % 100 == 0);
 
   if (end) {
-    end = false;
+    skillCheck = false;
     let date = new Date();
-    highScores.push({score: score,time: `${date.getDate()}/${date.getMonth()+1}`})
-    console.log(highScores);
+    
+    highScores.push({
+      score: score,
+      time: `${date.getDate()}/${date.getMonth() + 1}`,
+    });
+    board();
     cancelAnimationFrame(request);
     btnR.style.display = "inline-block";
+    btnHome.style.display = "block";
     backgroundAudio.pause();
+    if(!isfinished){
     gameoverAudio.currentTime = 0;
     gameoverAudio.play();
+    }
   }
 };
 
@@ -166,7 +207,6 @@ const checkWhenCoronaTouchBottom = (covid) => {
     removeCorona(covid);
   }
   if (shields == 0 && checkBoss) {
-    console.log(arrCorona[0]);
     removeCorona(arrCorona[0]);
     setTimeout(() => {
       end = true;
@@ -176,7 +216,6 @@ const checkWhenCoronaTouchBottom = (covid) => {
 // Hoàn thành xong từ
 const completedAWord = () => {
   // Xoá corona khi nhập đúng từ trong current corona
-
   if (
     arrCorrectLetters.length > 0 &&
     arrCorrectLetters.join("") === Object.values(currentCorona.character)[1]
@@ -190,7 +229,13 @@ const completedAWord = () => {
 // Tìm và xoá Corona khi nhập đúng từ trong current corona
 const findAndRemoveCoronaWithCorrectLetters = () => {
   if (currentCorona.type != TYPE_BLACK) {
-    score += currentCorona.type == TYPE_STAR ? 2 : 1;
+    if (currentCorona.type == TYPE_STAR) {
+      score += 2;
+    } else if (currentCorona.type == TYPE_NORMAL) {
+      score += 1;
+    } else {
+      score += 3;
+    }
     arrCorrectLetters = [];
     coronaBackup = currentCorona;
     if (checkBoss != true) {
@@ -200,16 +245,12 @@ const findAndRemoveCoronaWithCorrectLetters = () => {
       correctAudio.currentTime = 0;
       correctAudio.play();
     } else {
-      // if (bossCharacters.length == 0) {
-      //   hearts = 0;
-      // }
       if (hearts > 1) {
-        let rdIndex = mRandom(0, bossCharacters.length);
+        let rdIndex = randomNumber(0, bossCharacters.length);
         bossCharacter = bossCharacters[rdIndex];
         bossCharacters.splice(rdIndex, 1);
         currentCorona.character = bossCharacter;
         hearts--;
-        console.log(hearts);
         correctAudio.currentTime = 0;
         correctAudio.play();
       } else {
@@ -221,6 +262,7 @@ const findAndRemoveCoronaWithCorrectLetters = () => {
         winAudio.play();
         setTimeout(() => {
           end = true;
+          isfinished = true;
         }, 50);
       }
     }
@@ -263,7 +305,28 @@ document.addEventListener("keypress", (e) => {
     firstLetter = key;
     selectCurrentCorona();
   }
-
+  //
+  if (key == "enter" && skillCheck && !checkBoss) {
+    skillCheck = false;
+    let i = 0;
+    for (let covid of arrCorona) {
+      if (covid.y >= canvas.height / 2 - 100) {
+        i++;
+        checkKill++;
+        if (covid.type == TYPE_STAR) {
+          scoreSkill += 2;
+        } else if (covid.type == TYPE_NORMAL) {
+          scoreSkill += 1;
+        } else {
+          checkKill--;
+        }
+      }
+    }
+    arrCorona.splice(0, i);
+    score += scoreSkill;
+    correctAudio.currentTime = 0;
+    correctAudio.play();
+  }
   // Kiểm tra kí tự của current corona vs key
   if (checkLetterOfCurrentCorona(arrCorrectLetters, key)) {
     arrCorrectLetters.push(key);
@@ -271,14 +334,15 @@ document.addEventListener("keypress", (e) => {
     if (checkBoss) {
       shields--;
     }
-
     arrWrongLetters = arrCorrectLetters;
     arrWrongLetters.push(key);
     firstLetter = undefined;
     arrCorrectLetters = [];
     currentCorona = undefined;
-    incorrectAudio.currentTime = 0;
-    incorrectAudio.play();
+    if (key != "enter") {
+      incorrectAudio.currentTime = 0;
+      incorrectAudio.play();
+    }
   }
 });
 //Tìm và set current corona (đc gọi trong bắt sư kiện nhấn phím)
@@ -312,11 +376,23 @@ const play = () => {
   btnR.style.display = "none";
   waveText.style.display = "none";
   btnPause.style.display = "block";
-  btnHighScore.style.display = "none"
+  btnHighScore.style.display = "none";
+  btnHome.style.display = "none";
+
   animation();
 };
+
 //bat su kien nut reset
 btnR.addEventListener("click", (e) => {
+  reset();
+  play();
+  backgroundAudio.currentTime = 0;
+  backgroundAudio.loop = true;
+  backgroundAudio.play();
+});
+const reset = () => {
+  end = false;
+  request = 0;
   checkKill = 0;
   arrLength = 0;
   arrCorona = [];
@@ -329,14 +405,13 @@ btnR.addEventListener("click", (e) => {
   characters = data.map((e) => e);
   bossCharacters = bossData.map((e) => e);
   waveIndex = 1;
-  hearts = 3;
+  hearts = 5;
   shields = 3;
   checkBoss = false;
-  play();
-  backgroundAudio.currentTime = 0;
-  backgroundAudio.loop = true;
-  backgroundAudio.play();
-});
+  skillCheck = true;
+  firstUse = false;
+  scoreSkill = 0;
+};
 //bat su kien nut play
 btn.addEventListener("click", (e) => {
   play();
@@ -345,22 +420,42 @@ btn.addEventListener("click", (e) => {
   backgroundAudio.play();
 });
 btnPause.addEventListener("click", (e) => {
-  cancelAnimationFrame(request);
-  btnPause.style.display = "none";
-  btnContinue.style.display = "block";
-  backgroundAudio.pause();
+  if (!end) {
+    cancelAnimationFrame(request);
+    btnPause.style.display = "none";
+    btnContinue.style.display = "block";
+    btnHome.style.display = "block";
+  }
 });
 btnContinue.addEventListener("click", (e) => {
-  play();
-  btnContinue.style.display = "none";
-  btnPause.style.display = "block";
-  backgroundAudio.play();
+  if (!end) {
+    play();
+    btnContinue.style.display = "none";
+    btnPause.style.display = "block";
+    btnHome.style.display = "none";
+    backgroundAudio.play();
+  }
 });
 btnHighScore.addEventListener("click", (e) => {
   homeScreen.style.display = "none";
-  highScoreScreen.style.display="flex"
+  highScoreScreen.style.display = "flex";
 });
 btnBack.addEventListener("click", (e) => {
   homeScreen.style.display = "flex";
-  highScoreScreen.style.display="none"
+  highScoreScreen.style.display = "none";
+});
+btnHome.addEventListener("click", (e) => {
+  reset();
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  name_game.style.display = "block";
+  btn.style.display = "block";
+  btnR.style.display = "none";
+  waveText.style.display = "none";
+  btnPause.style.display = "block";
+  btnHighScore.style.display = "block";
+  btnContinue.style.display = "none";
+  btnPause.style.display = "none";
+  btnHome.style.display = "none";
+  backgroundAudio.currentTime = 0;
+  backgroundAudio.pause();
 });

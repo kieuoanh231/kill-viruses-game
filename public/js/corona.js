@@ -1,6 +1,6 @@
 class Corona {
   constructor(character, image, type = TYPE_NORMAL) {
-    this.x = mRandom(30, canvas.width - 30);
+    this.x = randomNumber(30, canvas.width - 30);
     this.y = -30;
     this.character = character;
     this.image = image;
@@ -25,7 +25,7 @@ class Corona {
         this.y += 1;
       }
     } else {
-      this.y += 0.5;
+      this.y += 1.5;
     }
   }
 
