@@ -89,7 +89,7 @@ let hearts = 5;
 let checkAnimation = true;
 let shields = 3;
 let skillCheck = true;
-let firstUse = false;
+let firstUse = false; 
 let isfinished = false;
 const highScores = [
   {
