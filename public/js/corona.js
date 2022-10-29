@@ -25,7 +25,7 @@ class Corona {
         this.y += 1;
       }
     } else {
-      this.y += 1.5;
+      this.y += 1;
     }
   }
 
